@@ -1,5 +1,5 @@
 const Sauce = require('../models/sauce');
-const fr = require('fs');
+const fs = require('fs');
 
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
@@ -74,3 +74,4 @@ exports.getAllSauce = (req, res, next) => {
             error
         }));
 };
+
