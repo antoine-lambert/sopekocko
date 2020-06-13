@@ -15,4 +15,5 @@ module.exports = (req, res, next) => {
             error: error | 'Requête non authentifié'
         });
     }
+
 };
