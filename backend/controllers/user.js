@@ -1,16 +1,15 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
 const User = require('../models/user');
-const { error } = require('console');
 
 exports.signup = (req, res, next) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; 
     const pass = req.body.password;
   if (pass.match(regex)) {
   bcrypt.hash(pass, 10)
   .then(hash => {
       const user = new User({
+          
           email: req.body.email,
           password: hash
       });
@@ -39,7 +38,7 @@ exports.login = (req, res, next) => {
                userId: user.id,
                token: jwt.sign(
                    { userId: user._id },
-                   'RANDOM_TOKEN_SECRET',
+                   'supersecretokenthatyoucantdecrypt',
                    { expiresIn: '24h' }
                )
            });
