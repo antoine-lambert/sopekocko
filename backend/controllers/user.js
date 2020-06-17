@@ -1,8 +1,11 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+let mongoMask = require('mongo-mask');
 
-exports.signup = (req, res, next) => {
+
+
+exports.signup = (req, res) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; 
     const pass = req.body.password;
   if (pass.match(regex)) {
@@ -23,7 +26,7 @@ exports.signup = (req, res, next) => {
   }
   
 }
-exports.login = (req, res, next) => {
+exports.login = (req, res) => {
    User.findOne({ email: req.body.email })
    .then(user => {
        if (!user) {

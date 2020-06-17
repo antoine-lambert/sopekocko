@@ -8,7 +8,6 @@ exports.createSauce = (req, res, next) => {
         ...sauceObject,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
 
-
     });
     sauce.save()
         .then(() => res.status(201).json({
@@ -56,7 +55,6 @@ exports.deleteSauce = (req, res, next) => {
         .catch(error => res.status(500).json({
             error
         }))
-
 };
 
 exports.getOneSauce = (req, res, next) => {
