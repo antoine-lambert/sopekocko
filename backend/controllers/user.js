@@ -1,31 +1,33 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-let mongoMask = require('mongo-mask');
-
-
+require('dotenv').config();
+const mongoMask = require('mongo-mask');
+const mask = require('json-mask');
+const assert = require('assert');
 
 exports.signup = (req, res) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; 
     const pass = req.body.password;
+
   if (pass.match(regex)) {
   bcrypt.hash(pass, 10)
   .then(hash => {
       const user = new User({
-          
           email: req.body.email,
           password: hash
       });
+      
       user.save()
       .then(() => res.status(201).json({ message: 'utilisateur créé !'}))
       .catch(error => res.status(500).json({ error })); 
   })
-  .catch(error => res.status(400).json({  error})); 
+  .catch(error => res.status(400).json({ error })); 
   } else {
        throw new Error("Le mot de passe n'est pas assez sécurisé");
   }
-  
 }
+
 exports.login = (req, res) => {
    User.findOne({ email: req.body.email })
    .then(user => {
@@ -41,8 +43,8 @@ exports.login = (req, res) => {
                userId: user.id,
                token: jwt.sign(
                    { userId: user._id },
-                   'supersecretokenthatyoucantdecrypt',
-                   { expiresIn: '24h' }
+                   `${process.env.sktdt}`,
+                   { expiresIn: '1h' }
                )
            });
        })
