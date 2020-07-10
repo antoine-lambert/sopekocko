@@ -23,7 +23,8 @@ exports.modifySauce = (req, res, next) => {
             _id: req.params.id
         }, {
             ...req.body,
-            _id: req.params.id
+            _id: req.params.id,
+            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         })
         .then(() => res.status(200).json({
             message: 'Objet modifié'
